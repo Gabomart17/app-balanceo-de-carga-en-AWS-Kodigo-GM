@@ -1,0 +1,29 @@
+# amplify.yml -> va en la RAIZ del repo (junto al package.json)
+# Le dice a AWS Amplify como construir ClickZone (Next.js 16 con SSR / Cache Components)
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        # Next 16 exige Node >= 20.9. Amplify solo soporta 16/18/20/22 (no 24), asi que fijamos 22.
+        # El "|| nvm use 20" es plan B por si la imagen de build no trae la 22.
+        - nvm use 22 || nvm use 20
+        # npm ci instala EXACTAMENTE lo del package-lock.json (reproducible y mas rapido que npm install)
+        - npm ci
+    build:
+      commands:
+        # En SSR, las variables de Amplify existen en el BUILD pero NO llegan solas al servidor en runtime.
+        # Las copiamos a .env.production para que Next las incluya en el build y en el servidor.
+        # El "|| true" evita que el build falle si la variable todavia no esta definida (es opcional).
+        - env | grep -e NEXT_PUBLIC_ >> .env.production || true
+        - npm run build
+  artifacts:
+    # Con SSR la salida es la carpeta .next (NO "out", eso es solo para export estatico)
+    baseDirectory: .next
+    files:
+      - '**/*'
+  cache:
+    paths:
+      # Cachear dependencias y cache de Next acelera los builds siguientes
+      - node_modules/**/*
+      - .next/cache/**/*
