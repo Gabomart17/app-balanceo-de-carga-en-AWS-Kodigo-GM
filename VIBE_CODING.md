@@ -1,15 +1,3 @@
-# Proceso de Vibe Coding: ClickZone
-
-## Iteración 1: Concepción y setup
-
-**Prompt principal:**
-
-> Pegué el enunciado completo de la actividad (Next.js 16, App Router, TypeScript, 4+ rutas, API, Server/Client Components, useState/useEffect, responsive, loading/error UI, Vercel, GitHub, VIBE_CODING.md) y pedí hacerla con temática de periféricos gaming.
-
-**Resultado:** concepto de catálogo con 5 rutas, Route Handlers, plan de 8 pasos (setup, datos y API, layout y landing, catálogo, detalle/comparador/favoritos, loading/error, documentación, deploy).
-
-**Decisiones técnicas:** App Router + TypeScript + Tailwind; datos de ejemplo servidos por Route Handlers.
-
 ### Desafío 1: `git push` falló con `src refspec main does not match any`
 
 - **Primer diagnóstico de la IA (incorrecto):** faltaba el primer commit.
